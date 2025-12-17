@@ -34,10 +34,18 @@ export class ProfileService {
     })
   }
   
-  async remove(id: string) {
-    const profile = await this.prisma.profile.findUnique({ where: { id } })
-    if (!profile) throw new NotFoundException("prifile not fornd")
-
-    return this.prisma.profile.delete({ where: { id } })
+    async remove(id: string) {
+    const profile = await this.prisma.profile.findUnique({
+      where: { id }
+    })
+    if (!profile) {
+      throw new NotFoundException("profile not found")
+    }
+    await this.prisma.profile.delete({
+      where: { id }
+    })
+    return {
+      message: "profile deleted"
+    }
   }
 }
