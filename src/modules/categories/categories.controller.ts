@@ -10,31 +10,31 @@ export class CategoriesController {
 
 
   @Post()
-  @ApiOperation({summary: "create category"})
+  @ApiOperation({summary: "ADMIN, SUPERADMIN"})
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
 
   @Get()
-  @ApiOperation({ summary: "get all categories"})
+  @ApiOperation({ summary: "ADMIN, SUPERADMIN, USER"})
   findAll() {
     return this.categoriesService.findAll()
   }
 
   @Get(':id')
-  @ApiOperation({ summary: "get one category"})
+  @ApiOperation({ summary: "ADMIN, SUPERADMIN, USER"})
   findOne(@Param('id') id: string) {
     return this.categoriesService.findOne(id)
   }
 
   @Patch(':id')
-  @ApiOperation({summary: "update category"})
+  @ApiOperation({summary: "ADMIN, SUPERADMIN"})
   update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
     return this.categoriesService.update(id, updateCategoryDto)
   }
 
   @Delete(':id')
-  @ApiOperation({summary: "delete category"})
+  @ApiOperation({summary: "SUPERADMIN"})
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(id)
   }
