@@ -50,9 +50,21 @@ export class MoviesService {
     })
   }
 
-  async remove(id: string) {
-    const movie = await this.prisma.movies.findUnique({ where: { id } })
-    if (!movie) throw new NotFoundException("movie not found")
-    return this.prisma.movies.delete({ where: { id } })
+  
+    async remove(id: string) {
+    const movie = await this.prisma.movies.findUnique({
+      where: { id }
+    })
+    if (!movie) {
+      throw new NotFoundException("movie not found")
+    }
+    await this.prisma.movies.delete({
+      where: { id }
+    })
+    return {
+      message: "movie deleted"
+    }
   }
+
+
 }

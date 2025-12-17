@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/users/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { MoviesModule } from './modules/movies/movies.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { MoviesModule } from './modules/movies/movies.module';
     AuthModule,
     ProfileModule,
     MoviesModule,
+    CategoriesModule,
     ConfigModule.forRoot({
       isGlobal: true
     })

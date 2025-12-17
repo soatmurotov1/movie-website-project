@@ -30,7 +30,7 @@ export class AuthService {
         const otp = this.generateOtp()
         await this.redis.set(`otp:${user.email}`, otp, 900)
         await this.mailer.sendOtpEmail(user.email, otp)
-        return { message: "otp qayta yuborildi" }
+        return { message: "Bu user ooldinruyxatdan o'tgan lekin tasdiqlanmagan. OTP qayta yuborildi" }
       } else {
         throw new BadRequestException("bu user oldin ruyxatdan utgan")
       }
@@ -73,8 +73,8 @@ export class AuthService {
     const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) throw new UnauthorizedException("username yoki password xato")
 
-    const token = this.jwt.sign({ sub: user.id, role: user.role })
-    return { access_token: token }
+    const token = this.jwt.sign({ id: user.id, username: user.username, email: user.email, role: user.role })
+    return { token: token, user: user }
   }
 
 
