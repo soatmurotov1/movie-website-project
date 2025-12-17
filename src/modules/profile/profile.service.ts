@@ -9,17 +9,11 @@ export class ProfileService {
 
   async create(createProfileDto: CreateProfileDto) {
     return this.prisma.profile.create({
-      data: createProfileDto,
+      data: createProfileDto
     })
 
   }
 
-
-
-  async findAll() {
-    return this.prisma.profile.findMany()
-  }
-  
 
   async findOne(id: string) {
     const profile = await this.prisma.profile.findUnique({
@@ -27,7 +21,7 @@ export class ProfileService {
     })
 
     if (!profile) throw new NotFoundException("profile not found")
-    return profile;
+    return profile
   }
 
   async update(id: string, updateProfileDto: UpdateProfileDto) {

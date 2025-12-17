@@ -9,19 +9,20 @@ export class CreateUserDto {
 
   @ApiProperty({ example: "ali@gmail.com" })
   @IsEmail()
-  email: string;
+  @IsString()
+  email: string
 
   @ApiProperty({ example: "awegqerbg" })
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password: string
 
-  @ApiProperty({ example: "USER", required: false })
+  @ApiProperty({ example: "USER"})
   @IsOptional()
   @IsString()
   role?: string
 
-  @ApiProperty({ example: "https://avatar.png", required: false })
+  @ApiProperty({ example: "https://avatar.png" })
   @IsOptional()
   @IsString()
   awatar_url?: string 

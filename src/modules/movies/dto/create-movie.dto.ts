@@ -34,13 +34,14 @@ export class CreateMovieDto {
     @IsNotEmpty()
     poster_url: string
 
+    @ApiProperty({example: "free"})
     @IsEnum(SubscriptionType)
     @IsOptional()
     subscription_type?: SubscriptionType
 
+    @ApiProperty({example: 0})
     @IsNumber()
     @IsOptional()
     view_count?: number
 
-    
 }
