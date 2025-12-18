@@ -519,7 +519,7 @@ last_watched: TIMESTAMP DEFAULT NOW()
 ### Admin paneli
 
 1. **GET /api/admin/movies**
-
+3
    - Response:
      ```json
      {

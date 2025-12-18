@@ -1,31 +1,31 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { MoviesService } from './movies.service';
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+import { MovieFilesService } from './movie_files.service';
+import { CreateMovieFileDto } from './dto/create-movie_file.dto';
+import { UpdateMovieFileDto } from './dto/update-movie_file.dto';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
 import { Roles } from 'src/common/roles.decorator';
 
 @ApiBearerAuth()
-@Controller('movies')
-export class MoviesController {
-  constructor(private readonly moviesService: MoviesService) {}
+@Controller('movie-files')
+export class MovieFilesController {
+  constructor(private readonly movieFilesService: MovieFilesService) {}
 
   @Post()
-  @ApiOperation({summary: "SUPERADMIN"})
+  @ApiOperation({summary: "ADMIN, SUPERADMIN"})
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("SUPERADMIN")
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.moviesService.create(createMovieDto)
+  @Roles("SUPERADMIN", "ADMIN")
+  create(@Body() createMovieFileDto: CreateMovieFileDto) {
+    return this.movieFilesService.create(createMovieFileDto);
   }
 
   @Get()
-  @ApiOperation({summary: "SUPERADMIN, ADMIN, USER"})
+  @ApiOperation({summary: "ADMIN, SUPERADMIN, USER"})
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("SUPERADMIN", "ADMIN", "USER")
+  @Roles("ADMIN", "SUPERADMIN", "USER")
   findAll() {
-    return this.moviesService.findAll()
+    return this.movieFilesService.findAll()
   }
 
   @Get(':id')
@@ -33,15 +33,15 @@ export class MoviesController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("SUPERADMIN", "ADMIN", "USER")
   findOne(@Param('id') id: string) {
-    return this.moviesService.findOne(id)
+    return this.movieFilesService.findOne(id)
   }
 
   @Patch(':id')
   @ApiOperation({summary: "SUPERADMIN, ADMIN"})
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("SUPERADMIN", "ADMIN")
-  update(@Param('id') id: string, @Body() updateMovieDto: UpdateMovieDto) {
-    return this.moviesService.update(id, updateMovieDto)
+  update(@Param('id') id: string, @Body() updateMovieFileDto: UpdateMovieFileDto) {
+    return this.movieFilesService.update(id, updateMovieFileDto)
   }
 
   @Delete(':id')
@@ -49,6 +49,6 @@ export class MoviesController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("SUPERADMIN")
   remove(@Param('id') id: string) {
-    return this.moviesService.remove(id)
+    return this.movieFilesService.remove(id)
   }
 }

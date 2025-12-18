@@ -4,6 +4,7 @@ import { ProfileModule } from './profile/profile.module';
 import { MoviesModule } from './movies/movies.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MovieCategoriesModule } from './movie_categories/movie_categories.module';
+import { MovieFilesModule } from './movie_files/movie_files.module';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { MovieCategoriesModule } from './movie_categories/movie_categories.modul
     ProfileModule, 
     MoviesModule, 
     CategoriesModule, 
-    MovieCategoriesModule
+    MovieCategoriesModule, 
+    MovieFilesModule
   ],
   exports: [AuthModule]
 })

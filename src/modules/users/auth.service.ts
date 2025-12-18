@@ -30,7 +30,7 @@ export class AuthService {
         const otp = this.generateOtp()
         await this.redis.set(`otp:${user.email}`, otp, 900)
         await this.mailer.sendOtpEmail(user.email, otp)
-        return { message: "Bu user ooldinruyxatdan o'tgan lekin tasdiqlanmagan. OTP qayta yuborildi" }
+        return { message: "Bu user ooldin ruyxatdan o'tgan lekin tasdiqlanmagan. OTP qayta yuborildi" }
       } else {
         throw new BadRequestException("bu user oldin ruyxatdan utgan")
       }

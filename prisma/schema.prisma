@@ -151,6 +151,7 @@ model Movies {
   duration_minutes  Int
   poster_url        String
   subscription_type SubscriptionType @default(free)
+  price             Int @default(0)
   view_count        Int @default(0)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
