@@ -7,6 +7,7 @@ import { MoviesModule } from './modules/movies/movies.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MovieCategoriesModule } from './modules/movie_categories/movie_categories.module';
 import { MovieFilesModule } from './modules/movie_files/movie_files.module';
+import { FavoritesModule } from './modules/favorites/favorites.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MovieFilesModule } from './modules/movie_files/movie_files.module';
     CategoriesModule,
     MovieCategoriesModule,
     MovieFilesModule,
+    FavoritesModule,
     ConfigModule.forRoot({
       isGlobal: true
     })

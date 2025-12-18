@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiOperation, ApiProperty } from '@nestjs/swagger';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
 import { Roles } from 'src/common/roles.decorator';
+import { get } from 'http';
 
 @ApiBearerAuth()
 @Controller('profile')
@@ -19,6 +20,15 @@ export class ProfileController {
   create(@Body() createProfileDto: CreateProfileDto) {
     return this.profileService.create(createProfileDto)
   }
+
+  @Get()
+  @ApiOperation({summary: "ADMIN, SUPERADMIN"})
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles("ADMIN", "SUPERADMIN")
+  findAll() {
+    return this.profileService.findAll()
+  }
+
 
   
   @Get(':id')

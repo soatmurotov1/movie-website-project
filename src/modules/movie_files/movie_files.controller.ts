@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { MovieFilesService } from './movie_files.service';
 import { CreateMovieFileDto } from './dto/create-movie_file.dto';
 import { UpdateMovieFileDto } from './dto/update-movie_file.dto';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
 import { Roles } from 'src/common/roles.decorator';
@@ -14,6 +14,7 @@ export class MovieFilesController {
 
   @Post()
   @ApiOperation({summary: "ADMIN, SUPERADMIN"})
+  @ApiConsumes("multipart/form")
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("SUPERADMIN", "ADMIN")
   create(@Body() createMovieFileDto: CreateMovieFileDto) {
