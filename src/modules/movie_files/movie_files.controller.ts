@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@n
 import { MovieFilesService } from './movie_files.service';
 import { CreateMovieFileDto } from './dto/create-movie_file.dto';
 import { UpdateMovieFileDto } from './dto/update-movie_file.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
 import { Roles } from 'src/common/roles.decorator';
 
+@ApiBearerAuth()
 @Controller('movie-files')
 export class MovieFilesController {
   constructor(private readonly movieFilesService: MovieFilesService) {}

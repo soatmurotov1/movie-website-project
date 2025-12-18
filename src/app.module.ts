@@ -6,7 +6,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { MoviesModule } from './modules/movies/movies.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { MovieCategoriesModule } from './modules/movie_categories/movie_categories.module';
-import { MovieFile } from './modules/movie_files/entities/movie_file.entity';
+import { MovieFilesModule } from './modules/movie_files/movie_files.module';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { MovieFile } from './modules/movie_files/entities/movie_file.entity';
     MoviesModule,
     CategoriesModule,
     MovieCategoriesModule,
-    MovieFile,
+    MovieFilesModule,
     ConfigModule.forRoot({
       isGlobal: true
     })

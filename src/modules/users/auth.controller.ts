@@ -14,19 +14,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  @ApiOperation({ summary: "register user" })
   register(@Body() dto: RegisterDto) {
     return this.authService.register(dto);
   }
 
   @Post('verify')
-  @ApiOperation({ summary: "verify user" })
   verify(@Body() dto: VerifyDto) {
     return this.authService.verify(dto.email, dto.otp)
   }
 
   @Post('login')
-  @ApiOperation({ summary: "login user" })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto.username, dto.password)
   }
