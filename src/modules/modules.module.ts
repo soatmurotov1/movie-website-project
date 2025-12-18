@@ -5,6 +5,7 @@ import { MoviesModule } from './movies/movies.module';
 import { CategoriesModule } from './categories/categories.module';
 import { MovieCategoriesModule } from './movie_categories/movie_categories.module';
 import { MovieFilesModule } from './movie_files/movie_files.module';
+import { FavoritesModule } from './favorites/favorites.module';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { MovieFilesModule } from './movie_files/movie_files.module';
     MoviesModule, 
     CategoriesModule, 
     MovieCategoriesModule, 
-    MovieFilesModule
+    MovieFilesModule, FavoritesModule
   ],
   exports: [AuthModule]
 })

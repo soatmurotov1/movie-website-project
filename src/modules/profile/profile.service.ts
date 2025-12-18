@@ -13,7 +13,9 @@ export class ProfileService {
     })
 
   }
-
+  async findAll() {
+    return this.prisma.profile.findMany()
+  }
 
   async findOne(id: string) {
     const profile = await this.prisma.profile.findUnique({
@@ -34,7 +36,7 @@ export class ProfileService {
     })
   }
   
-    async remove(id: string) {
+  async remove(id: string) {
     const profile = await this.prisma.profile.findUnique({
       where: { id }
     })

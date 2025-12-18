@@ -1,24 +1,22 @@
 import { Module } from '@nestjs/common';
-import { MoviesService } from './movies.service';
-import { MoviesController } from './movies.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { FavoritesController } from './favorites.controller';
+import { FavoritesService } from './favorites.service';
 
 @Module({
   imports: [
     PrismaModule,
-    JwtModule.register({ 
+    JwtModule.register({
       secret: process.env.JWT_SECRET || "secret",
-      signOptions: { expiresIn: "1d"}
+      signOptions: { expiresIn: "1d" },
     })
   ],
-  controllers: [
-    MoviesController
-  ],
+  controllers: [FavoritesController],
   providers: [
-    MoviesService,
+    FavoritesService,
     AuthGuard,
     RolesGuard
   ],
@@ -27,4 +25,4 @@ import { JwtModule } from '@nestjs/jwt';
     RolesGuard
   ]
 })
-export class MoviesModule {}
+export class FavoritesModule {}

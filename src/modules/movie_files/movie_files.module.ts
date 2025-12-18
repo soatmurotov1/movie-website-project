@@ -1,22 +1,29 @@
 import { Module } from '@nestjs/common';
 import { MovieFilesService } from './movie_files.service';
 import { MovieFilesController } from './movie_files.controller';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
 import { AuthGuard } from 'src/common/auth.guard';
 import { RolesGuard } from 'src/common/role.guard';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  controllers: [MovieFilesController],
+  imports: [
+    PrismaModule,
+    JwtModule.register({ 
+      secret: process.env.JWT_SECRET || "secret",
+      signOptions: { expiresIn: "1d"}
+    })
+  ],
+  controllers: [
+    MovieFilesController
+  ],
   providers: [
-    MovieFilesService, 
-    PrismaService,
-    AuthGuard, 
-    RolesGuard,
-    JwtService
+    MovieFilesService,
+    AuthGuard,
+    RolesGuard
   ],
   exports: [
-    AuthGuard, 
+    AuthGuard,
     RolesGuard
   ]
 })
