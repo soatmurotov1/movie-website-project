@@ -102,18 +102,24 @@ export class AuthService {
     if (dto.password) dto.password = await bcrypt.hash(dto.password, 10)
     return this.prisma.users.update({ where: { id }, data: dto })
   }
-    async removeUser(id: string) {
-    const user = await this.prisma.users.findUnique({
-      where: { id }
-    })
-    if (!user) {
-      throw new NotFoundException("user not found")
-    }
-    await this.prisma.users.delete({
-      where: { id }
-    })
-    return {
-      message: "user deleted"
-    }
+
+  async removeUser(id: string) {
+  const user = await this.prisma.users.findUnique({
+    where: { id }
+  })
+  if (!user) {
+    throw new NotFoundException("user not found");
   }
+  await this.prisma.favorites.deleteMany({
+    where: { userId: id }
+  })
+
+  await this.prisma.users.delete({
+    where: { id }
+  })
+
+  return {
+    message: "user deleted"
+  }
+}
 }

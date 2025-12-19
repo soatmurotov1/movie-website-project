@@ -1,24 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { MovieFilesService } from './movie_files.service';
-import { CreateMovieFileDto } from './dto/create-movie_file.dto';
-import { UpdateMovieFileDto } from './dto/update-movie_file.dto';
-import { ApiBearerAuth, ApiConsumes, ApiOperation } from '@nestjs/swagger';
-import { AuthGuard } from 'src/common/auth.guard';
-import { RolesGuard } from 'src/common/role.guard';
-import { Roles } from 'src/common/roles.decorator';
+import { Controller, Post, Body, UploadedFile, UseInterceptors, Get, Param, Delete, UseGuards } from "@nestjs/common";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { multerConfig } from "src/common/multer.config";
+import { MovieFilesService } from "./movie_files.service";
+import { CreateMovieFileDto } from "./dto/create-movie_file.dto";
+import { AuthGuard } from "src/common/auth.guard";
+import { RolesGuard } from "src/common/role.guard";
+import { Roles } from "src/common/roles.decorator";
 
 @ApiBearerAuth()
-@Controller('movie-files')
+@Controller("movie-files")
 export class MovieFilesController {
-  constructor(private readonly movieFilesService: MovieFilesService) {}
+  constructor(private service: MovieFilesService) {}
+
 
   @Post()
   @ApiOperation({summary: "ADMIN, SUPERADMIN"})
-  @ApiConsumes("multipart/form")
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("SUPERADMIN", "ADMIN")
-  create(@Body() createMovieFileDto: CreateMovieFileDto) {
-    return this.movieFilesService.create(createMovieFileDto);
+  @Roles("ADMIN", "SUPERADMIN")
+  @ApiConsumes("multipart/form-data")
+  @UseInterceptors(FileInterceptor("file", multerConfig))
+  create(
+    @Body() dto: CreateMovieFileDto,
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    return this.service.create(dto, file.filename)
   }
 
   @Get()
@@ -26,30 +32,23 @@ export class MovieFilesController {
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("ADMIN", "SUPERADMIN", "USER")
   findAll() {
-    return this.movieFilesService.findAll()
+    return this.service.findAll()
   }
 
-  @Get(':id')
-  @ApiOperation({summary: "SUPERADMIN, ADMIN, USER"})
+  @Get(":id")
+  @ApiOperation({summary: "ADMIN, SUPERADMIN, USER"})
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles("SUPERADMIN", "ADMIN", "USER")
-  findOne(@Param('id') id: string) {
-    return this.movieFilesService.findOne(id)
+  @Roles("ADMIN", "SUPERADMIN", "USER")
+  findOne(@Param("id") id: string) {
+    return this.service.findOne(id)
   }
 
-  @Patch(':id')
-  @ApiOperation({summary: "SUPERADMIN, ADMIN"})
-  @UseGuards(AuthGuard, RolesGuard)
-  @Roles("SUPERADMIN", "ADMIN")
-  update(@Param('id') id: string, @Body() updateMovieFileDto: UpdateMovieFileDto) {
-    return this.movieFilesService.update(id, updateMovieFileDto)
-  }
 
-  @Delete(':id')
+  @Delete(":id")
   @ApiOperation({summary: "SUPERADMIN"})
   @UseGuards(AuthGuard, RolesGuard)
   @Roles("SUPERADMIN")
-  remove(@Param('id') id: string) {
-    return this.movieFilesService.remove(id)
+  remove(@Param("id") id: string) {
+    return this.service.remove(id)
   }
 }

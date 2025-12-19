@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsInt, IsUrl, IsEnum, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt, IsUrl, IsEnum, IsOptional, IsNumber, isNumber } from 'class-validator';
 import { SubscriptionType } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -44,4 +44,8 @@ export class CreateMovieDto {
     @IsOptional()
     view_count?: number
 
+    @ApiProperty({ example: 0})
+    @IsNumber()
+    @IsOptional()
+    price?: number
 }
