@@ -1,15 +1,21 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { RedisModule as IORedisModule } from '@nestjs-modules/ioredis';
 import { RedisService } from './redis.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
+@Global() // Boshqa modullarda qayta import qilmaslik uchun
 @Module({
   imports: [
-    IORedisModule.forRoot({
-      type: "single", 
-      url: "redis://127.0.0.1:6379"
-    })
+    IORedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'single',
+        url: configService.get<string>('REDIS_URL'), // .env dagi URLni olish
+      }),
+      inject: [ConfigService],
+    }),
   ],
-  exports: [IORedisModule, RedisService],
-  providers: [RedisService]
+  providers: [RedisService],
+  exports: [RedisService],
 })
 export class RedisModule {}
