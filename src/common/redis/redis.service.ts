@@ -5,7 +5,7 @@ import Redis from 'ioredis';
 @Injectable()
 export class RedisService {
   constructor(
-    @InjectRedis() private readonly redis: Redis, // Modul orqali ulangan Redisni inyeksiya qilish
+    @InjectRedis() private readonly redis: Redis,
   ) {}
 
   async set(key: string, value: string, ttl: number) {

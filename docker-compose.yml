@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15 
+    container_name: movie_db
+    restart: always 
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: movie
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - movie
+
+  redis:
+    image: redis:7
+    container_name: movie_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - movie
+
+  app:
+    build: .
+    container_name: movie_app
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5050:3000"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - movie
+
+volumes:
+  postgres_data:
+
+networks:
+  movie:
+    driver: bridge
